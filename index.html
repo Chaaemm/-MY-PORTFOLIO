@@ -1,0 +1,1336 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="เว็บไซต์แฟ้มสะสมผลงานและประสบการณ์ฝึกงานของนักศึกษา">
+  <title>My Portfolio | กนกพิชญ์ ดีพราหมณ์</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =========================
+       GENERAL EFFECTS
+    ========================= */
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .work-card {
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.12);
+    }
+
+    .map-container {
+      width: 100%;
+      height: 300px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    /* =========================
+       ABOUT SLIDESHOW
+    ========================= */
+
+    .about-slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 350px;
+      margin: 0 auto 30px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    }
+
+    .about-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity .8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+    }
+
+    .about-slide.active {
+      opacity: 1;
+    }
+
+    .about-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,.4);
+      color: white;
+      border: none;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .slide-btn:hover {
+      background: rgba(0,0,0,.75);
+    }
+
+    .slide-prev { left: 15px; }
+    .slide-next { right: 15px; }
+
+    .slide-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot-indicator {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .dot-indicator.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    /* =========================
+       MY WORKS GRID
+    ========================= */
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .work-card {
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 18px;
+      background: white;
+    }
+
+    .work-slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #f4f1f7;
+      overflow: hidden;
+    }
+
+    .work-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform .45s ease;
+    }
+
+    .work-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      cursor: zoom-in;
+      overflow: hidden;
+    }
+
+    .work-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+
+    .work-card:hover .work-slide img {
+      transform: scale(1.04);
+    }
+
+    .work-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      color: #633d78;
+      font-size: 19px;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+      transition: .2s;
+    }
+
+    .work-arrow:hover {
+      background: #633d78;
+      color: white;
+    }
+
+    .work-prev { left: 10px; }
+    .work-next { right: 10px; }
+
+    .work-counter {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 5px 10px;
+      background: rgba(0,0,0,.55);
+      color: white;
+      font-size: 12px;
+      border-radius: 20px;
+      z-index: 5;
+    }
+
+    .work-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .work-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.65);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .work-dot.active {
+      width: 19px;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .work-info {
+      padding: 16px;
+    }
+
+    .work-info h3 {
+      margin: 7px 0;
+      font-size: 17px;
+    }
+
+    .work-info p {
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* =========================
+       LIGHTBOX
+    ========================= */
+
+    .work-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .work-lightbox.show {
+      display: flex;
+    }
+
+    .work-lightbox img {
+      max-width: 95%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .work-lightbox-close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: white;
+      background: none;
+      border: none;
+      font-size: 42px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .work-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-slideshow-container {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .work-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .work-slider {
+        aspect-ratio: 16 / 10;
+      }
+
+      .about-slideshow-container {
+        height: 230px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a class="brand" href="#home">
+      <span class="brand-mark">P</span>
+      <span>MY PORTFOLIO</span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="เปิดเมนู" aria-expanded="false">☰</button>
+
+    <nav class="nav" id="nav">
+      <a href="#home" class="active">หน้าแรก</a>
+      <a href="#about">เกี่ยวกับฉัน</a>
+      <a href="#education">การศึกษา</a>
+      <a href="#internship">ฝึกงาน</a>
+      <a href="#works">ผลงาน</a>
+      <a href="#contact">ติดต่อ</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- =========================
+         HOME
+    ========================= -->
+
+    <section class="hero section" id="home">
+
+      <div class="hero-copy">
+        <span class="eyebrow">
+          <span class="dot"></span>
+          STUDENT PORTFOLIO
+        </span>
+
+        <h1>
+          สวัสดีค่ะ<br>
+          ยินดีต้อนรับสู่
+          <span class="gradient-text"> ข้อมูลการฝึกงาน </span>
+        </h1>
+
+        <p class="hero-lead">
+          พื้นที่รวบรวมประวัติส่วนตัว ทักษะ ประสบการณ์ฝึกงาน
+          และผลงานที่ได้เรียนรู้และลงมือทำจริง
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#works">
+            ชมผลงานของฉัน <span>↗</span>
+          </a>
+          <a class="btn btn-light" href="#about">
+            รู้จักฉันเพิ่มเติม
+          </a>
+        </div>
+
+        <div class="hero-note">
+          <span>✦</span> เรียนรู้ • ลงมือทำ • พัฒนาตนเอง
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="blob blob-blue"></div>
+        <div class="blob blob-pink"></div>
+
+        <div class="profile-card">
+          <div class="profile-placeholder image-frame">
+            <img src="images/m (4).jpg"
+              alt="รูปโปรไฟล์ กนกพิชญ์ ดีพราหมณ์"
+              onerror="this.style.display='none'">
+          </div>
+
+          <div class="profile-caption">
+            <strong>นางสาวกนกพิชญ์ ดีพราหมณ์</strong>
+            <span>นักศึกษา | สาขาวิชาเทคโนโลยีสารสนเทศ</span>
+          </div>
+
+          <span class="sparkle s1">✦</span>
+          <span class="sparkle s2">✧</span>
+        </div>
+
+        <div class="floating-tag tag-one">✿ Creative</div>
+        <div class="floating-tag tag-two">♡ Learning</div>
+      </div>
+
+    </section>
+
+    <!-- =========================
+         ABOUT ME
+    ========================= -->
+
+    <section class="section" id="about">
+
+      <div class="section-heading">
+        <span class="eyebrow">ABOUT ME</span>
+        <h2>เกี่ยวกับ<span class="gradient-text">ฉัน</span></h2>
+        <p>แนะนำตัวและบรรยากาศการเรียนรู้/การทำงาน</p>
+      </div>
+
+      <div class="about-slideshow-container">
+
+        <div class="about-slide active">
+          <img src="https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/urC3tUCTLe1A48mEJj51"
+            alt="รูปภาพเกี่ยวกับฉัน 1">
+        </div>
+
+        <div class="about-slide">
+          <img src="https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/resize=width:5000,height:2617/kB7TXYhfSAyzyhOHV1G4"
+            alt="รูปภาพเกี่ยวกับฉัน 2">
+        </div>
+
+        <div class="about-slide">
+          <img src="https://www.nuchun.com/wp-content/uploads/2021/06/OVEDMU0.jpg"
+            alt="รูปภาพเกี่ยวกับฉัน 3">
+        </div>
+
+        <button class="slide-btn slide-prev"
+          onclick="changeSlide(-1)">&#10094;</button>
+
+        <button class="slide-btn slide-next"
+          onclick="changeSlide(1)">&#10095;</button>
+
+        <div class="slide-dots">
+          <button class="dot-indicator active"
+            onclick="currentSlide(1)" aria-label="รูปที่ 1"></button>
+          <button class="dot-indicator"
+            onclick="currentSlide(2)" aria-label="รูปที่ 2"></button>
+          <button class="dot-indicator"
+            onclick="currentSlide(3)" aria-label="รูปที่ 3"></button>
+        </div>
+
+      </div>
+
+      <div class="about-grid">
+
+        <article class="info-card about-main">
+          <div class="card-icon">☁</div>
+          <h3>ประวัติส่วนตัว</h3>
+          <p>
+            ฉันเป็นนักศึกษาที่สนใจการเรียนรู้ด้านเทคโนโลยี
+            การออกแบบ และการสร้างสรรค์ผลงาน ชอบพัฒนาทักษะ
+            ผ่านการลงมือปฏิบัติจริง พร้อมเปิดรับประสบการณ์ใหม่ ๆ
+            เพื่อนำไปต่อยอดในการทำงาน
+          </p>
+        </article>
+
+        <article class="info-card">
+          <div class="card-icon pink-icon">♡</div>
+          <h3>ความสนใจ</h3>
+          <div class="chips">
+            <span>เทคโนโลยี</span>
+            <span>ออกแบบกราฟิก</span>
+            <span>งานสร้างสรรค์</span>
+            <span>สื่อดิจิทัล</span>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="card-icon">✧</div>
+          <h3>เป้าหมาย</h3>
+          <p>
+            พัฒนาความรู้และประสบการณ์ให้สามารถทำงานได้อย่างมีคุณภาพ
+            มีความรับผิดชอบ และนำทักษะที่ได้รับไปใช้ในการประกอบอาชีพในอนาคต
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         EDUCATION
+    ========================= -->
+
+    <section class="section soft-section" id="education">
+
+      <div class="section-heading">
+        <span class="eyebrow">EDUCATION</span>
+        <h2>ประวัติ<span class="gradient-text">การศึกษา</span></h2>
+        <p>เส้นทางการเรียนรู้และพัฒนาความสามารถ</p>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div class="timeline-card">
+            <span class="date-label">ระดับการศึกษา</span>
+            <h3>วิทยาลัยการอาชีพศรีสะเกษ</h3>
+            <p>สาขาวิชา / แผนกวิชา: เทคโนโลยีสารสนเทศ</p>
+            <small>ปีการศึกษา: 2569</small>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <span class="timeline-dot pink-dot"></span>
+          <div class="timeline-card">
+            <span class="date-label pink-label">ข้อมูลเพิ่มเติม</span>
+            <h3>กำลังศึกษาระดับชั้นปริญญาตรี</h3>
+            <p>สถาบันการศึกษาภาคตะวันออกเฉียงเหนือ 4</p>
+            <small>ภาคเรียนที่ 2/2569</small>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         INTERNSHIP
+    ========================= -->
+
+    <section class="section" id="internship">
+
+      <div class="section-heading">
+        <span class="eyebrow">INTERNSHIP EXPERIENCE</span>
+        <h2>ประสบการณ์<span class="gradient-text">ฝึกงาน</span></h2>
+        <p>เรียนรู้การทำงานจริง ณ สถานประกอบการ</p>
+      </div>
+
+      <div class="company-banner">
+        <div class="company-symbol">N</div>
+        <div>
+          <span class="date-label">สถานประกอบการ</span>
+          <h3>ร้านเนรมิตป้ายครบวงจร</h3>
+          <p>
+            เรียนรู้กระบวนการทำงานด้านป้าย ตั้งแต่รับข้อมูล
+            ออกแบบ ผลิต ไปจนถึงติดตั้งและส่งมอบงาน
+          </p>
+        </div>
+      </div>
+
+      <div class="internship-details">
+
+        <article class="info-card">
+          <span class="number">01</span>
+          <h3>ชื่อสถานประกอบการ / หน่วยงาน</h3>
+          <p>ร้านเนรมิตป้ายครบวงจร</p>
+        </article>
+
+        <article class="info-card">
+          <span class="number">02</span>
+          <h3>ชื่อผู้ควบคุมการฝึกงาน</h3>
+          <p>นายเนรมิต คชรัตน์ <small class="muted">(พี่ตอง)</small></p>
+          <p>นายพุทธินันท์ สาลีวงศ์ <small class="muted">(พี่แบงค์)</small></p>
+        </article>
+
+        <article class="work-card">
+          <div class="work-placeholder image-frame"
+            style="height:300px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="images/m (1).png"
+              alt="ภาพครูฝึก"
+              style="width:100%;height:100%;object-fit:contain;"
+              onerror="this.style.display='none'">
+          </div>
+          <div class="work-info">
+            <span class="work-type">INTERNSHIP TRAINER</span>
+            <h3>ครูฝึก</h3>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <span class="number">03</span>
+          <h3>ตำแหน่งหรือหน้าที่ที่ได้รับมอบหมาย</h3>
+          <p>
+            ปฏิบัติงานด้านการออกแบบและผลิตสื่อสิ่งพิมพ์ภายในร้าน
+            โดยมีหน้าที่ดังนี้
+          </p>
+          <ul class="task-list">
+            <li>ออกแบบป้ายไวนิล ป้ายโฆษณา และป้ายประชาสัมพันธ์</li>
+            <li>ออกแบบป้ายร้านค้า ป้ายเมนูอาหาร และป้ายสินค้า</li>
+            <li>ออกแบบสติ๊กเกอร์ ฉลากสินค้า โลโก้ และนามบัตร</li>
+            <li>จัดวางข้อความและรูปภาพ ปรับแต่งสี ขนาด และความคมชัด</li>
+            <li>จัดเตรียมไฟล์งานสำหรับการพิมพ์</li>
+            <li>พิมพ์งานไวนิล ผลิตสติ๊กเกอร์ และตัดตัวอักษร</li>
+            <li>เตรียมวัสดุและอุปกรณ์ รวมถึงช่วยติดตั้งป้าย</li>
+            <li>รับรายละเอียดจากลูกค้าและตรวจสอบความถูกต้องก่อนส่งมอบ</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <span class="number">04</span>
+          <h3>ทักษะที่ได้เรียนรู้หรือพัฒนา</h3>
+          <ul>
+            <li>การออกแบบกราฟิกและจัดองค์ประกอบ</li>
+            <li>การใช้โปรแกรมออกแบบและตกแต่งภาพ</li>
+            <li>การเตรียมไฟล์และขั้นตอนการพิมพ์</li>
+            <li>การเลือกใช้วัสดุและอุปกรณ์งานป้าย</li>
+            <li>การสื่อสาร การทำงานเป็นทีม และความรับผิดชอบ</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <span class="number">05</span>
+          <h3>ผลงานหรือชิ้นงานที่สามารถส่งได้</h3>
+          <ul>
+            <li>ตัวอย่างงานออกแบบป้ายไวนิล</li>
+            <li>ป้ายเมนูอาหารและเครื่องดื่ม</li>
+            <li>งานออกแบบสติ๊กเกอร์และฉลาก</li>
+            <li>โปสเตอร์ประชาสัมพันธ์และป้ายร้านค้า</li>
+            <li>ภาพขั้นตอนการผลิตและติดตั้งป้าย</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <span class="number">06</span>
+          <h3>ปัญหาหรืออุปสรรคที่พบ</h3>
+          <p>
+            การทำความเข้าใจความต้องการของลูกค้าให้ครบถ้วน
+            การกำหนดขนาดและสัดส่วนงานให้ถูกต้อง
+            รวมถึงการจัดการไฟล์ภาพและข้อความให้เหมาะสมกับงานพิมพ์
+          </p>
+        </article>
+
+        <article class="info-card">
+          <span class="number">07</span>
+          <h3>แนวทางแก้ไขที่นักศึกษาดำเนินการ</h3>
+          <p>
+            สอบถามรายละเอียดเพิ่มเติมจากผู้ควบคุมงาน
+            ตรวจสอบขนาดและข้อความก่อนเริ่มผลิต
+            ทดลองจัดวางองค์ประกอบ และตรวจทานไฟล์งานก่อนส่งพิมพ์ทุกครั้ง
+          </p>
+        </article>
+
+        <article class="info-card">
+          <span class="number">08</span>
+          <h3>ความประทับใจในสถานประกอบการ</h3>
+          <p>
+            ได้รับโอกาสเรียนรู้กระบวนการทำงานจริง
+            ได้ฝึกทักษะจากงานหลากหลายประเภท
+            และได้รับคำแนะนำจากผู้ควบคุมงานและพี่ ๆ ภายในร้าน
+          </p>
+        </article>
+
+        <article class="info-card">
+          <span class="number">09</span>
+          <h3>บรรยากาศการทำงานและวัฒนธรรมองค์กร</h3>
+          <p>
+            บรรยากาศการทำงานเปิดโอกาสให้เรียนรู้และสอบถาม
+            มีการช่วยเหลือและประสานงานกัน
+            เพื่อให้งานออกมาถูกต้องและส่งมอบได้ตามความต้องการของลูกค้า
+          </p>
+        </article>
+
+        <article class="info-card">
+          <span class="number">10</span>
+          <h3>ข้อเสนอแนะเพื่อพัฒนาการฝึกงานในอนาคต</h3>
+          <p>
+            ควรมีการวางแผนงานและแบ่งหน้าที่ให้ชัดเจน
+            เปิดโอกาสให้นักศึกษาได้ทดลองทำงานในทุกขั้นตอน
+            พร้อมให้คำแนะนำและประเมินผลอย่างต่อเนื่อง
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         MY WORKS
+         12 CATEGORIES SLIDESHOW
+    ========================= -->
+
+    <section class="section soft-section" id="works">
+
+      <div class="section-heading">
+        <span class="eyebrow">MY WORKS</span>
+        <h2>ผลงาน<span class="gradient-text">ของฉัน</span></h2>
+        <p>รวบรวมตัวอย่างผลงานที่ได้ลงมือปฏิบัติ สามารถกดเลื่อนดูรูปภาพในแต่ละหัวข้อได้</p>
+      </div>
+
+      <div class="work-grid" id="workGrid">
+
+        <!-- 01 ป้ายไวนิล -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (5).jpg" alt="ออกแบบป้ายไวนิล 1"></div>
+              <div class="work-slide"><img src="images/m (50).jpg" alt="ออกแบบป้ายไวนิล 2"></div>
+              <div class="work-slide"><img src="images/m (51).jpg" alt="ออกแบบป้ายไวนิล 3"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">GRAPHIC DESIGN</span>
+            <h3>ออกแบบป้ายไวนิล</h3>
+            <p>ตัวอย่างผลงานออกแบบป้ายและสื่อโฆษณา</p>
+          </div>
+        </article>
+
+        <!-- 02 ป้ายเมนูอาหาร -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (40).jpg" alt="ป้ายเมนูอาหาร 1"></div>
+              <div class="work-slide"><img src="images/m (38).jpg" alt="ป้ายเมนูอาหาร 2"></div>
+              <div class="work-slide"><img src="images/m (45).jpg" alt="ป้ายเมนูอาหาร 3"></div>
+              <div class="work-slide"><img src="images/m (26).jpg" alt="ป้ายเมนูอาหาร 3"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">PRINT MEDIA</span>
+            <h3>ป้ายเมนูอาหาร</h3>
+            <p>การจัดวางรูปภาพ ราคา และรายละเอียดสินค้า</p>
+          </div>
+        </article>
+
+        <!-- 03 ป้ายไฟนีออน -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (10).jpg" alt="ป้ายไฟนีออน 1"></div>
+              <div class="work-slide"><img src="images/m (11).jpg" alt="ป้ายไฟนีออน 2"></div>
+              <div class="work-slide"><img src="images/m (55).jpg" alt="ป้ายไฟนีออน 2"></div>
+              <div class="work-slide"><img src="images/m (56).jpg" alt="ป้ายไฟนีออน 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">SIGN DESIGN</span>
+            <h3>ป้ายไฟ</h3>
+            <p>ตัวอย่างงานออกแบบสื่อและป้ายไฟ</p>
+          </div>
+        </article>
+
+        <!-- 04 ป้ายพลาสวูด -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (36).jpg" alt="ป้ายพลาสวูด 1"></div>
+              <div class="work-slide"><img src="images/m (38).jpg" alt="ป้ายพลาสวูด 2"></div>
+              <div class="work-slide"><img src="images/m (52).jpg" alt="ป้ายพลาสวูด 2"></div>
+              <div class="work-slide"><img src="images/m (54).jpg" alt="ป้ายพลาสวูด 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">ADVERTISING DESIGN</span>
+            <h3>ป้ายพลาสวูด</h3>
+            <p>ตัวอย่างผลงานออกแบบสื่อประชาสัมพันธ์</p>
+          </div>
+        </article>
+
+        <!-- 05 โลโก้และตรายาง -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (49).jpg" alt="โลโก้และตรายาง 1"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">LOGO DESIGN</span>
+            <h3>ออกแบบโลโก้และตรายาง</h3>
+            <p>ออกแบบตรายางและโลโก้สัญลักษณ์ประจำร้านค้า</p>
+          </div>
+        </article>
+
+        <!-- 06 ฉลากสินค้า -->
+       <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (30).jpg" alt="งานสติ๊กเกอร์ 1"></div>
+              <div class="work-slide"><img src="images/m (31).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/m (35).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/m (32).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/m (8).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/m (9).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">CRAFT & PRINT</span>
+            <h3>งานสติ๊กเกอร์</h3>
+            <p>การเตรียมไฟล์ vector ไดคัทและลอกสติ๊กเกอร์งานละเอียด</p>
+          </div>
+        </article>
+
+        <!-- 07 ป้ายกองโจร -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (7).jpg" alt="ป้ายกองโจร 1"></div>
+              <div class="work-slide"><img src="images/m (14).jpg" alt="ป้ายกองโจร 2"></div>
+              <div class="work-slide"><img src="images/m (16).jpg" alt="ป้ายกองโจร 2"></div>
+              <div class="work-slide"><img src="images/m (37).jpg" alt="ป้ายกองโจร 2"></div>
+              <div class="work-slide"><img src="images/m (43).jpg" alt="ป้ายกองโจร 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">OUTDOOR MEDIA</span>
+            <h3>ป้ายกองโจร / ป้ายหาเสียง</h3>
+            <p>การจัดองค์ประกอบข้อความเน้นความเด่นชัดระยะไกล</p>
+          </div>
+        </article>
+
+        <!-- 08 การผลิตและติดตั้ง -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (2).jpg" alt="ขั้นตอนการติดตั้ง 1"></div>
+              <div class="work-slide"><img src="images/m (6).jpg" alt="ขั้นตอนการติดตั้ง 2"></div>
+              <div class="work-slide"><img src="images/m (12).jpg" alt="ขั้นตอนการติดตั้ง 2"></div>
+              <div class="work-slide"><img src="images/m (20).jpg" alt="ขั้นตอนการติดตั้ง 2"></div>
+              <div class="work-slide"><img src="images/m (21).jpg" alt="ขั้นตอนการติดตั้ง 2"></div>
+              <div class="work-slide"><img src="images/m (41).jpg" alt="ขั้นตอนการติดตั้ง 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">SIGNAGE PRODUCTION</span>
+            <h3>ขั้นตอนการตัดและติดตั้งป้าย</h3>
+            <p>ภาพบรรยากาศการลงมือประกอบและติดตั้งงานจริง</p>
+          </div>
+        </article>
+
+        <!-- 09 นามบัตรและแผ่นพับ -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (42).jpg" alt="นามบัตร 1"></div>
+              <div class="work-slide"><img src="images/m (15).jpg" alt="นามบัตร 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">GRAPHIC DESIGN</span>
+            <h3>นามบัตรและแผ่นพับ</h3>
+            <p>งานสิ่งพิมพ์ขนาดเล็กเน้นความเรียบหรูและอ่านง่าย</p>
+          </div>
+        </article>
+
+        <!-- 10 สื่อออนไลน์ -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (28).jpg" alt="สื่อออนไลน์ 1"></div>
+              <div class="work-slide"><img src="images/m (48).jpg" alt="สื่อออนไลน์ 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">DIGITAL MEDIA</span>
+            <h3>สื่อประชาสัมพันธ์</h3>
+            <p>ออกแบบแบนเนอร์สำหรับประชาสัมพันธ์</p>
+          </div>
+        </article>
+
+        <!-- 11 Branding -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/m (33).jpg" alt="ชุดอัตลักษณ์ร้านค้า 1"></div>
+              <div class="work-slide"><img src="images/m (18).jpg" alt="ชุดอัตลักษณ์ร้านค้า 2"></div>
+              <div class="work-slide"><img src="images/m (29).jpg" alt="ชุดอัตลักษณ์ร้านค้า 2"></div>
+              <div class="work-slide"><img src="images/m (13).jpg" alt="ชุดอัตลักษณ์ร้านค้า 2"></div>
+              <div class="work-slide"><img src="images/m (22).jpg" alt="ชุดอัตลักษณ์ร้านค้า 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">BRANDING</span>
+            <h3>ชุดอัตลักษณ์ร้านค้า</h3>
+            <p>ออกแบบธีมป้ายหน้าร้าน เมนู และฉลากให้เป็นทิศทางเดียวกัน</p>
+          </div>
+        </article>
+
+        <!-- 12 งานสติ๊กเกอร์ -->
+        <article class="work-card">
+          <div class="work-slider">
+            <div class="work-slides">
+              <div class="work-slide"><img src="images/b (3).jpg" alt="งานสติ๊กเกอร์ 1"></div>
+              <div class="work-slide"><img src="images/b (25).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/b (9).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/b (11).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/b (21).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+              <div class="work-slide"><img src="images/b (22).jpg" alt="งานสติ๊กเกอร์ 2"></div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-type">CRAFT & PRINT</span>
+            <h3>งานเสริม ระหว่างฝึกงาน</h3>
+            <p>เนรมิตทุเรียน</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         CONTACT
+    ========================= -->
+
+    <section class="section" id="contact">
+
+      <div class="contact-panel">
+
+        <div class="contact-grid">
+
+          <div>
+            <span class="eyebrow">CONTACT ME & LOCATION</span>
+
+            <h2>
+              ขอบคุณที่เข้าชม<br>
+              <span class="gradient-text">แฟ้มสะสมผลงาน</span>
+            </h2>
+
+            <p>
+              สามารถติดต่อหรือสอบถามข้อมูลเพิ่มเติม
+              และเยี่ยมชมสถานที่ตั้งของร้านได้ผ่านช่องทางด้านล่างนี้
+            </p>
+
+            <div class="contact-list" style="margin-top:25px;">
+
+              <div>
+                <span>✉</span>
+                <p>
+                  <b>อีเมล</b><br>
+                  kanokpech.deepram@gmail.com
+                </p>
+              </div>
+
+              <div>
+                <span>☎</span>
+                <p>
+                  <b>โทรศัพท์</b><br>
+                  099-8737532
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom:10px;color:var(--text-color,#333);">
+              📍 แผนที่ตั้งร้านเนรมิตป้ายครบวงจร
+            </h3>
+
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.2!2d104.32!3d15.11!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDA2JzM2LjAiTiAxMDTCsDE5JzEyLjAiRw!5e0!3m2!1sth!2sth!4v1650000000000!5m2!1sth!2sth"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="แผนที่ร้านเนรมิตป้ายครบวงจร">
+              </iframe>
+            </div>
+
+            <div style="margin-top:10px;text-align:right;">
+              <a
+                href="https://share.google/d8lSl07eoim9PJJPB"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="font-size:.9rem;color:var(--primary-color,#ff6b81);text-decoration:none;font-weight:500;">
+                เปิดดูแผนที่ขนาดใหญ่ใน Google Maps ↗
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       IMAGE LIGHTBOX
+  ========================= -->
+
+  <div class="work-lightbox" id="workLightbox">
+    <button class="work-lightbox-close"
+      id="closeWorkLightbox"
+      aria-label="ปิดภาพ">&times;</button>
+
+    <img id="lightboxImage" src="" alt="ภาพผลงานขนาดใหญ่">
+  </div>
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+    <a class="brand" href="#home">
+      <span class="brand-mark">P</span>
+      <span>MY PORTFOLIO</span>
+    </a>
+
+    <p>© <span id="year"></span> Chaaem's work ♡</p>
+
+    <a href="#home" class="back-top">กลับขึ้นด้านบน ↑</a>
+  </footer>
+
+  <!-- ไฟล์ JavaScript เดิมของเว็บไซต์ -->
+  <script src="script.js"></script>
+
+  <!-- =========================
+       MAIN JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    /* =========================
+       ABOUT SLIDESHOW
+    ========================= */
+
+    let slideIndex = 0;
+
+    const slides = document.querySelectorAll('.about-slide');
+    const dots = document.querySelectorAll('.dot-indicator');
+
+    let slideTimer;
+
+    function showSlide(n) {
+
+      if (!slides.length) return;
+
+      if (n >= slides.length) {
+        slideIndex = 0;
+      }
+
+      if (n < 0) {
+        slideIndex = slides.length - 1;
+      }
+
+      slides.forEach(slide => {
+        slide.classList.remove('active');
+      });
+
+      dots.forEach(dot => {
+        dot.classList.remove('active');
+      });
+
+      slides[slideIndex].classList.add('active');
+
+      if (dots[slideIndex]) {
+        dots[slideIndex].classList.add('active');
+      }
+    }
+
+    function changeSlide(n) {
+      slideIndex += n;
+      showSlide(slideIndex);
+      resetTimer();
+    }
+
+    function currentSlide(n) {
+      slideIndex = n - 1;
+      showSlide(slideIndex);
+      resetTimer();
+    }
+
+    function autoSlide() {
+      slideIndex++;
+      showSlide(slideIndex);
+    }
+
+    function resetTimer() {
+      clearInterval(slideTimer);
+      slideTimer = setInterval(autoSlide, 4000);
+    }
+
+    if (slides.length > 0) {
+      slideTimer = setInterval(autoSlide, 4000);
+    }
+
+    /* =========================
+       WORKS SLIDESHOW
+       แยกการทำงานแต่ละหัวข้อ
+    ========================= */
+
+    document.querySelectorAll('.work-slider').forEach(function(slider) {
+
+      const slidesContainer = slider.querySelector('.work-slides');
+
+      const allSlides = Array.from(
+        slider.querySelectorAll('.work-slide')
+      );
+
+      let currentIndex = 0;
+
+      if (!slidesContainer || allSlides.length === 0) return;
+
+      const prev = document.createElement('button');
+      prev.className = 'work-arrow work-prev';
+      prev.innerHTML = '&#10094;';
+      prev.setAttribute('aria-label', 'รูปก่อนหน้า');
+
+      const next = document.createElement('button');
+      next.className = 'work-arrow work-next';
+      next.innerHTML = '&#10095;';
+      next.setAttribute('aria-label', 'รูปถัดไป');
+
+      const counter = document.createElement('div');
+      counter.className = 'work-counter';
+
+      const dotsContainer = document.createElement('div');
+      dotsContainer.className = 'work-dots';
+
+      slider.appendChild(prev);
+      slider.appendChild(next);
+      slider.appendChild(counter);
+      slider.appendChild(dotsContainer);
+
+      function getVisibleSlides() {
+        return allSlides.filter(function(slide) {
+          return slide.dataset.broken !== 'true';
+        });
+      }
+
+      function updateSlide() {
+
+        const visibleSlides = getVisibleSlides();
+
+        if (visibleSlides.length === 0) {
+
+          slidesContainer.style.display = 'none';
+          prev.style.display = 'none';
+          next.style.display = 'none';
+          counter.style.display = 'none';
+          dotsContainer.style.display = 'none';
+
+          slider.style.background = '#f4f1f7';
+
+          return;
+        }
+
+        if (currentIndex >= visibleSlides.length) {
+          currentIndex = 0;
+        }
+
+        slidesContainer.style.display = 'flex';
+
+        allSlides.forEach(function(slide) {
+          slide.style.display = 'none';
+        });
+
+        visibleSlides.forEach(function(slide) {
+          slide.style.display = 'block';
+        });
+
+        slidesContainer.style.transform =
+          'translateX(-' + (currentIndex * 100) + '%)';
+
+        counter.textContent =
+          (currentIndex + 1) + ' / ' + visibleSlides.length;
+
+        dotsContainer.innerHTML = '';
+
+        visibleSlides.forEach(function(_, index) {
+
+          const dot = document.createElement('button');
+
+          dot.className = 'work-dot' +
+            (index === currentIndex ? ' active' : '');
+
+          dot.setAttribute('aria-label', 'ดูรูปที่ ' + (index + 1));
+
+          dot.addEventListener('click', function() {
+            currentIndex = index;
+            updateSlide();
+          });
+
+          dotsContainer.appendChild(dot);
+
+        });
+
+        const hasMultiple = visibleSlides.length > 1;
+
+        prev.style.display = hasMultiple ? 'flex' : 'none';
+        next.style.display = hasMultiple ? 'flex' : 'none';
+
+        dotsContainer.style.display = hasMultiple ? 'flex' : 'none';
+        counter.style.display = hasMultiple ? 'block' : 'none';
+      }
+
+      // ตรวจสอบรูปภาพที่ไม่มีอยู่จริง
+      allSlides.forEach(function(slide) {
+
+        const img = slide.querySelector('img');
+
+        if (!img) return;
+
+        function markBroken() {
+          slide.dataset.broken = 'true';
+          updateSlide();
+        }
+
+        img.addEventListener('error', markBroken);
+
+        if (img.complete && img.naturalWidth === 0) {
+          markBroken();
+        }
+
+      });
+
+      // ปุ่มย้อนกลับ
+      prev.addEventListener('click', function() {
+
+        const total = getVisibleSlides().length;
+
+        if (!total) return;
+
+        currentIndex = (currentIndex - 1 + total) % total;
+
+        updateSlide();
+      });
+
+      // ปุ่มถัดไป
+      next.addEventListener('click', function() {
+
+        const total = getVisibleSlides().length;
+
+        if (!total) return;
+
+        currentIndex = (currentIndex + 1) % total;
+
+        updateSlide();
+      });
+
+      updateSlide();
+
+      // เปิดภาพขนาดใหญ่เมื่อคลิกรูป
+      slider.addEventListener('click', function(event) {
+
+        if (
+          event.target.closest('.work-arrow') ||
+          event.target.closest('.work-dots')
+        ) return;
+
+        const visibleSlides = getVisibleSlides();
+
+        const selected = visibleSlides[currentIndex];
+
+        const img = selected?.querySelector('img');
+
+        if (img && img.naturalWidth > 0) {
+
+          const lightbox = document.getElementById('workLightbox');
+
+          const lightboxImage =
+            document.getElementById('lightboxImage');
+
+          lightboxImage.src = img.src;
+
+          lightbox.classList.add('show');
+        }
+
+      });
+
+    });
+
+    /* =========================
+       LIGHTBOX CLOSE
+    ========================= */
+
+    const lightbox = document.getElementById('workLightbox');
+
+    const closeButton =
+      document.getElementById('closeWorkLightbox');
+
+    if (closeButton && lightbox) {
+
+      closeButton.addEventListener('click', function() {
+        lightbox.classList.remove('show');
+      });
+
+      lightbox.addEventListener('click', function(event) {
+
+        if (event.target === lightbox) {
+          lightbox.classList.remove('show');
+        }
+
+      });
+
+      document.addEventListener('keydown', function(event) {
+
+        if (event.key === 'Escape') {
+          lightbox.classList.remove('show');
+        }
+
+      });
+
+    }
+
+    /* =========================
+       FOOTER YEAR
+    ========================= */
+
+    const yearEl = document.getElementById('year');
+
+    if (yearEl) {
+      yearEl.textContent = new Date().getFullYear();
+    }
+
+  </script>
+
+</body>
+</html>
